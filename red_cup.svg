@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="cupGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B71C1C" />
+      <stop offset="50%" stop-color="#E53935" />
+      <stop offset="100%" stop-color="#C62828" />
+    </linearGradient>
+    <linearGradient id="lidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F" />
+      <stop offset="100%" stop-color="#FFB300" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="#f8f9fa" rx="40" />
+  <!-- Shadow -->
+  <ellipse cx="200" cy="330" rx="90" ry="15" fill="rgba(0,0,0,0.2)" filter="blur(4px)" />
+  <!-- Cup body -->
+  <path d="M 120 120 L 280 120 L 245 320 Q 200 335 155 320 Z" fill="url(#cupGrad)" />
+  <!-- Lid -->
+  <ellipse cx="200" cy="120" rx="90" ry="20" fill="#8E0000" />
+  <ellipse cx="200" cy="115" rx="88" ry="18" fill="url(#lidGrad)" />
+  
+  <!-- Pop Mie Logo -->
+  <circle cx="200" cy="190" r="45" fill="#1E88E5" stroke="#FFFFFF" stroke-width="4" />
+  <text x="200" y="185" fill="white" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="22" text-anchor="middle">POP</text>
+  <text x="200" y="210" fill="white" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="22" text-anchor="middle">MIE</text>
+  
+  <!-- Japanese text / Tori Miso -->
+  <text x="200" y="255" fill="#FFC107" font-family="Arial, sans-serif" font-weight="900" font-size="26" text-anchor="middle">TORI MISO</text>
+  <text x="200" y="275" fill="white" font-family="Arial, sans-serif" font-weight="bold" font-size="12" text-anchor="middle">JAPANESE RAMEN</text>
+  
+  <!-- Noodles Graphic -->
+  <path d="M 170 300 Q 180 290 190 300 T 210 300 T 230 300" fill="none" stroke="#FFCA28" stroke-width="4" stroke-linecap="round" />
+  <path d="M 175 310 Q 185 300 195 310 T 215 310 T 225 310" fill="none" stroke="#FFCA28" stroke-width="4" stroke-linecap="round" />
+</svg>

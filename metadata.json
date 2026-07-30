@@ -1,0 +1,6 @@
+{
+  "name": "Kopsudi",
+  "description": "Koperasi Suhand Dendy - Toko dan Dashboard Admin",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
