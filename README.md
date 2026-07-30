@@ -1,1 +1,1 @@
-KOPSUDI - Kopi Suhand Dendy
+KOPSUDI - Koperasi Suhand Dendy
