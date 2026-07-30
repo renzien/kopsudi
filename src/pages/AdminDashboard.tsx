@@ -18,12 +18,13 @@ import {
   Settings,
   LogOut,
   Lock,
-  User
+  User,
+  Trash2
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const AdminDashboard: React.FC = () => {
-  const { categories, products, sales, pendingTransactions, banner, admins, addCategory, updateStock, addProduct, resolvePendingTransaction, updateBanner, updateAdminPassword } = useStore();
+  const { categories, products, sales, pendingTransactions, banner, admins, addCategory, updateStock, addProduct, removeProduct, resolvePendingTransaction, updateBanner, updateAdminPassword } = useStore();
   const navigate = useNavigate();
   
   const [activeTab, setActiveTab] = useState<'overview' | 'inventory' | 'categories' | 'pesanan' | 'banner' | 'settings'>('overview');
@@ -616,6 +617,7 @@ const AdminDashboard: React.FC = () => {
                     <th className="p-4 font-semibold text-gray-600">Produk</th>
                     <th className="p-4 font-semibold text-gray-600">Harga</th>
                     <th className="p-4 font-semibold text-gray-600 w-48">Stok</th>
+                    <th className="p-4 font-semibold text-gray-600 w-24">Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -632,6 +634,19 @@ const AdminDashboard: React.FC = () => {
                             onChange={(e) => updateStock(product.id, Number(e.target.value))}
                           />
                         </div>
+                      </td>
+                      <td className="p-4">
+                        <button 
+                          onClick={() => {
+                            if(window.confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                              removeProduct(product.id);
+                            }
+                          }}
+                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Hapus Produk"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
                       </td>
                     </tr>
                   ))}

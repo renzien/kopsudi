@@ -10,6 +10,7 @@ interface StoreContextType {
   admins: AdminUser[];
   addCategory: (name: string) => void;
   addProduct: (product: Omit<Product, 'id'>) => void;
+  removeProduct: (productId: string) => void;
   updateStock: (productId: string, newStock: number) => void;
   recordSale: (productId: string, qty: number) => void;
   addPendingTransaction: (productId: string, qty: number) => void;
@@ -125,6 +126,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setProducts([...products, newProduct]);
   };
 
+  const removeProduct = (productId: string) => {
+    setProducts(products.filter(p => p.id !== productId));
+  };
+
   const updateStock = (productId: string, newStock: number) => {
     setProducts(products.map(p => p.id === productId ? { ...p, stock: newStock } : p));
   };
@@ -189,6 +194,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       admins,
       addCategory, 
       addProduct, 
+      removeProduct,
       updateStock, 
       recordSale,
       addPendingTransaction,
