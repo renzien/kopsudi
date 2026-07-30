@@ -67,8 +67,8 @@ const PublicStore: React.FC = () => {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 mix-blend-overlay"></div>
         
         {/* Sunburst background effect */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-30">
-          <div className="w-[150vw] h-[150vw] md:w-[1500px] md:h-[1500px] bg-[conic-gradient(from_0deg,transparent_0_15deg,#ffeb3b_15deg_30deg,transparent_30deg_45deg,#ffeb3b_45deg_60deg,transparent_60deg_75deg,#ffeb3b_75deg_90deg,transparent_90deg_105deg,#ffeb3b_105deg_120deg,transparent_120deg_135deg,#ffeb3b_135deg_150deg,transparent_150deg_165deg,#ffeb3b_165deg_180deg,transparent_180deg_195deg,#ffeb3b_195deg_210deg,transparent_210deg_225deg,#ffeb3b_225deg_240deg,transparent_240deg_255deg,#ffeb3b_255deg_270deg,transparent_270deg_285deg,#ffeb3b_285deg_300deg,transparent_300deg_315deg,#ffeb3b_315deg_330deg,transparent_330deg_345deg,#ffeb3b_345deg_360deg)] animate-[spin_60s_linear_infinite] origin-center"></div>
+        <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+          <div className="w-[2500px] h-[2500px] flex-shrink-0 bg-[conic-gradient(from_0deg,transparent_0_15deg,#ffeb3b_15deg_30deg,transparent_30deg_45deg,#ffeb3b_45deg_60deg,transparent_60deg_75deg,#ffeb3b_75deg_90deg,transparent_90deg_105deg,#ffeb3b_105deg_120deg,transparent_120deg_135deg,#ffeb3b_135deg_150deg,transparent_150deg_165deg,#ffeb3b_165deg_180deg,transparent_180deg_195deg,#ffeb3b_195deg_210deg,transparent_210deg_225deg,#ffeb3b_225deg_240deg,transparent_240deg_255deg,#ffeb3b_255deg_270deg,transparent_270deg_285deg,#ffeb3b_285deg_300deg,transparent_300deg_315deg,#ffeb3b_315deg_330deg,transparent_330deg_345deg,#ffeb3b_345deg_360deg)] animate-[spin_60s_linear_infinite] origin-center"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12">
