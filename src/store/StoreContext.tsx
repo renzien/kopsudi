@@ -17,6 +17,8 @@ interface StoreContextType {
   resolvePendingTransaction: (transactionId: string, approve: boolean) => void;
   updateBanner: (bannerData: Partial<Banner>) => void;
   updateAdminPassword: (username: string, newPassword: string) => void;
+  removeSale: (saleId: string) => void;
+  clearAllSales: () => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -150,6 +152,14 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     updateStock(productId, product.stock - qty);
   };
 
+  const removeSale = (saleId: string) => {
+    setSales(sales.filter(s => s.id !== saleId));
+  };
+
+  const clearAllSales = () => {
+    setSales([]);
+  };
+
   const addPendingTransaction = (productId: string, qty: number) => {
     const product = products.find(p => p.id === productId);
     if (!product || product.stock < qty) return;
@@ -197,6 +207,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       removeProduct,
       updateStock, 
       recordSale,
+      removeSale,
+      clearAllSales,
       addPendingTransaction,
       resolvePendingTransaction,
       updateBanner,

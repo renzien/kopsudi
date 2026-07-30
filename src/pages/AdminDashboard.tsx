@@ -24,7 +24,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 
 const AdminDashboard: React.FC = () => {
-  const { categories, products, sales, pendingTransactions, banner, admins, addCategory, updateStock, addProduct, removeProduct, resolvePendingTransaction, updateBanner, updateAdminPassword } = useStore();
+  const { categories, products, sales, pendingTransactions, banner, admins, addCategory, updateStock, addProduct, removeProduct, resolvePendingTransaction, updateBanner, updateAdminPassword, removeSale, clearAllSales } = useStore();
   const navigate = useNavigate();
   
   const [activeTab, setActiveTab] = useState<'overview' | 'inventory' | 'categories' | 'pesanan' | 'banner' | 'settings'>('overview');
@@ -314,17 +314,32 @@ const AdminDashboard: React.FC = () => {
             <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h3 className="text-lg font-bold">Riwayat Transaksi Terbaru</h3>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="h-4 w-4 text-gray-400" />
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Cari transaksi..."
+                      value={searchHistoryQuery}
+                      onChange={(e) => setSearchHistoryQuery(e.target.value)}
+                      className="pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 w-full md:w-64 text-sm"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Cari transaksi..."
-                    value={searchHistoryQuery}
-                    onChange={(e) => setSearchHistoryQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 w-full md:w-64 text-sm"
-                  />
+                  {sales.length > 0 && (
+                    <button 
+                      onClick={() => {
+                        if (window.confirm('Yakin ingin menghapus semua riwayat transaksi? Ini hanya untuk testing.')) {
+                          clearAllSales();
+                        }
+                      }}
+                      className="flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors text-sm font-medium border border-red-100"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Reset Transaksi
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="divide-y divide-gray-100">
@@ -341,7 +356,7 @@ const AdminDashboard: React.FC = () => {
                   return [...filteredSales].reverse().map((sale) => {
                     const product = products.find(p => p.id === sale.productId);
                     return (
-                      <div key={sale.id} className="p-4 px-6 flex justify-between items-center hover:bg-gray-50">
+                      <div key={sale.id} className="p-4 px-6 flex justify-between items-center hover:bg-gray-50 group">
                         <div className="flex flex-col">
                           <span className="font-semibold text-gray-900">{product?.name || 'Produk Dihapus'}</span>
                           <span className="text-xs text-gray-400">{new Date(sale.timestamp).toLocaleString('id-ID')}</span>
@@ -349,6 +364,17 @@ const AdminDashboard: React.FC = () => {
                         <div className="flex items-center gap-4">
                           <span className="text-sm text-gray-600">x{sale.qty}</span>
                           <span className="font-bold text-green-600">Rp {sale.totalPrice.toLocaleString('id-ID')}</span>
+                          <button
+                            onClick={() => {
+                              if (window.confirm('Hapus transaksi ini?')) {
+                                removeSale(sale.id);
+                              }
+                            }}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 md:opacity-100"
+                            title="Hapus Transaksi"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </div>
                     )
