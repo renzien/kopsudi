@@ -36,6 +36,8 @@ export interface Sale {
   qty: number;
   totalPrice: number;
   timestamp: string;
+  customerName?: string;
+  createdAt?: any;
 }
 
 export interface PendingTransaction {
@@ -44,4 +46,6 @@ export interface PendingTransaction {
   qty: number;
   totalPrice: number;
   timestamp: string;
+  customerName?: string;
+  createdAt?: any;
 }

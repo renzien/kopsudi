@@ -1,0 +1,60 @@
+{
+  "collections": [
+    {
+      "name": "categories",
+      "fields": [
+        { "name": "name", "type": "string" }
+      ]
+    },
+    {
+      "name": "products",
+      "fields": [
+        { "name": "name", "type": "string" },
+        { "name": "categoryId", "type": "string" },
+        { "name": "price", "type": "number" },
+        { "name": "stock", "type": "number" },
+        { "name": "image", "type": "string" },
+        { "name": "description", "type": "string" }
+      ]
+    },
+    {
+      "name": "sales",
+      "fields": [
+        { "name": "productId", "type": "string" },
+        { "name": "qty", "type": "number" },
+        { "name": "totalPrice", "type": "number" },
+        { "name": "timestamp", "type": "string" }
+      ]
+    },
+    {
+      "name": "pendingTransactions",
+      "fields": [
+        { "name": "productId", "type": "string" },
+        { "name": "qty", "type": "number" },
+        { "name": "totalPrice", "type": "number" },
+        { "name": "timestamp", "type": "string" }
+      ]
+    },
+    {
+      "name": "banners",
+      "fields": [
+        { "name": "title", "type": "string" },
+        { "name": "subtitle", "type": "string" },
+        { "name": "description", "type": "string" },
+        { "name": "image", "type": "string" },
+        { "name": "promoTagTop", "type": "string" },
+        { "name": "promoTagDate", "type": "string" },
+        { "name": "promoTagPrice", "type": "string" },
+        { "name": "circlePromoPrice", "type": "string" },
+        { "name": "isBestSeller", "type": "boolean" }
+      ]
+    },
+    {
+      "name": "admins",
+      "fields": [
+        { "name": "username", "type": "string" },
+        { "name": "password", "type": "string" }
+      ]
+    }
+  ]
+}

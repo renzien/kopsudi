@@ -61,6 +61,15 @@ const AdminDashboard: React.FC = () => {
   const totalRevenue = sales.reduce((sum, sale) => sum + sale.totalPrice, 0);
   const totalItemsSold = sales.reduce((sum, sale) => sum + sale.qty, 0);
 
+  const isToday = (dateString: string) => {
+    const date = new Date(dateString);
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+  };
+  const todaysOrdersCount = pendingTransactions.filter(tx => isToday(tx.timestamp)).length + sales.filter(s => isToday(s.timestamp)).length;
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     const admin = admins.find(a => a.username.toLowerCase() === loginUsername.toLowerCase());
@@ -289,6 +298,16 @@ const AdminDashboard: React.FC = () => {
               <p className="text-gray-500">Pantau penjualan KOPSUDI secara real-time.</p>
             </div>
             
+            <div className="bg-gradient-to-br from-red-600 to-red-700 p-6 rounded-3xl shadow-lg shadow-red-600/20 text-white flex items-center gap-5">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-md">
+                <Bell className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <p className="text-red-100 font-medium mb-1">Pesanan Baru Hari Ini</p>
+                <p className="text-4xl font-black">{todaysOrdersCount}</p>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4">
                 <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center">
@@ -359,6 +378,9 @@ const AdminDashboard: React.FC = () => {
                       <div key={sale.id} className="p-4 px-6 flex justify-between items-center hover:bg-gray-50 group">
                         <div className="flex flex-col">
                           <span className="font-semibold text-gray-900">{product?.name || 'Produk Dihapus'}</span>
+                          {sale.customerName && (
+                            <span className="text-xs font-medium text-red-600">Pelanggan: {sale.customerName}</span>
+                          )}
                           <span className="text-xs text-gray-400">{new Date(sale.timestamp).toLocaleString('id-ID')}</span>
                         </div>
                         <div className="flex items-center gap-4">
@@ -412,6 +434,9 @@ const AdminDashboard: React.FC = () => {
                           </div>
                           <div className="flex flex-col">
                             <span className="font-bold text-gray-900 text-lg">{product?.name || 'Produk Dihapus'}</span>
+                            {tx.customerName && (
+                              <span className="text-sm font-semibold text-red-600 mb-1">Pelanggan: {tx.customerName}</span>
+                            )}
                             <div className="flex items-center gap-2 text-sm text-gray-500">
                               <span>{new Date(tx.timestamp).toLocaleString('id-ID')}</span>
                               <span>•</span>

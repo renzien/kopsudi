@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ShoppingCart, Flame, Clock, Star, Search, ChevronDown, AlertCircle, Plus, Minus, X } from 'lucide-react';
+import { ShoppingCart, Flame, Clock, Star, Search, ChevronDown, AlertCircle, Plus, Minus, X, User } from 'lucide-react';
 import { useStore } from '../store/StoreContext';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
@@ -15,6 +15,11 @@ const PublicStore: React.FC = () => {
   const [checkoutProduct, setCheckoutProduct] = useState<Product | null>(null);
   const [checkoutQuantity, setCheckoutQuantity] = useState(1);
 
+  const [customerName, setCustomerName] = useState<string>(() => localStorage.getItem('kopsudi_customer_name') || '');
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [tempName, setTempName] = useState('');
+  const [pendingCheckout, setPendingCheckout] = useState(false);
+
   const filteredProducts = products.filter(p => {
     const matchesCategory = activeCategory === '' || p.categoryId === activeCategory;
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -27,13 +32,35 @@ const PublicStore: React.FC = () => {
   };
 
   const confirmCheckout = () => {
+    if (!customerName.trim()) {
+      setTempName('');
+      setPendingCheckout(true);
+      setShowNameModal(true);
+      return;
+    }
+    executeCheckout(customerName);
+  };
+
+  const executeCheckout = (nameToUse: string) => {
     if (checkoutProduct) {
-      addPendingTransaction(checkoutProduct.id, checkoutQuantity);
+      addPendingTransaction(checkoutProduct.id, checkoutQuantity, nameToUse);
       setCartPulse(true);
       setLastPurchased(checkoutProduct.name);
       setTimeout(() => setCartPulse(false), 300);
       setTimeout(() => setLastPurchased(null), 3000);
       setCheckoutProduct(null);
+    }
+  };
+
+  const saveName = () => {
+    if (tempName.trim()) {
+      setCustomerName(tempName.trim());
+      localStorage.setItem('kopsudi_customer_name', tempName.trim());
+      setShowNameModal(false);
+      if (pendingCheckout) {
+        executeCheckout(tempName.trim());
+        setPendingCheckout(false);
+      }
     }
   };
 
@@ -51,6 +78,19 @@ const PublicStore: React.FC = () => {
             </div>
             
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => {
+                  setTempName(customerName);
+                  setPendingCheckout(false);
+                  setShowNameModal(true);
+                }}
+                className="flex items-center gap-2 p-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors"
+                title={customerName || 'Atur Nama'}
+              >
+                <User className="w-5 h-5" />
+                {customerName && <span className="text-sm font-semibold pr-2 max-w-[100px] truncate hidden sm:inline-block">{customerName}</span>}
+              </button>
+
               <motion.div 
                 animate={cartPulse ? { scale: [1, 1.2, 1] } : {}}
                 className="relative p-2 bg-orange-100 text-orange-600 rounded-full"
@@ -393,6 +433,61 @@ const PublicStore: React.FC = () => {
                   Selesaikan Pesanan
                 </button>
               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Name Input Modal */}
+      <AnimatePresence>
+        {showNameModal && (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowNameModal(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-3xl shadow-2xl w-full max-w-sm relative z-10 p-6 flex flex-col"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-gray-900">Nama Pelanggan</h3>
+                <button 
+                  onClick={() => setShowNameModal(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <p className="text-sm text-gray-500 mb-4">
+                Masukkan nama kamu untuk memudahkan pengambilan pesanan.
+              </p>
+
+              <input
+                type="text"
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                placeholder="Misal: Budi"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 font-medium outline-none mb-6"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveName();
+                }}
+              />
+
+              <button
+                onClick={saveName}
+                disabled={!tempName.trim()}
+                className="w-full bg-gray-900 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-gray-800 disabled:opacity-50 transition-colors flex justify-center items-center gap-2"
+              >
+                {pendingCheckout ? 'Lanjut Checkout' : 'Simpan Nama'}
+              </button>
             </motion.div>
           </div>
         )}
