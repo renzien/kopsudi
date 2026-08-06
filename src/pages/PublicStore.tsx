@@ -133,9 +133,11 @@ const PublicStore: React.FC = () => {
                 <Clock className="w-5 h-5" />
                 {banner.promoTagDate}
               </div>
-              <div className="bg-yellow-400 text-red-800 font-black px-6 py-3.5 rounded-xl shadow-xl border-2 border-red-700 flex items-center gap-2 transform rotate-2 w-full sm:w-auto justify-center">
-                {banner.promoTagPrice}
-              </div>
+              {banner.isSpecialPromo !== false && (
+                <div className="bg-yellow-400 text-red-800 font-black px-6 py-3.5 rounded-xl shadow-xl border-2 border-red-700 flex items-center gap-2 transform rotate-2 w-full sm:w-auto justify-center">
+                  {banner.promoTagPrice}
+                </div>
+              )}
             </div>
           </motion.div>
 
@@ -178,14 +180,16 @@ const PublicStore: React.FC = () => {
               )}
 
               {/* Promo tag */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                className="absolute -top-8 -right-6 md:-right-10 bg-yellow-400 border-[5px] border-red-600 text-red-700 font-black rounded-full w-28 h-28 md:w-36 md:h-36 flex flex-col items-center justify-center shadow-xl transform rotate-12 z-30"
-              >
-                <span className="text-xs md:text-sm">SPECIAL</span>
-                <span className="text-2xl md:text-4xl leading-none">{banner.circlePromoPrice}</span>
-              </motion.div>
+              {banner.isSpecialPromo !== false && (
+                <motion.div 
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                  className="absolute -top-8 -right-6 md:-right-10 bg-yellow-400 border-[5px] border-red-600 text-red-700 font-black rounded-full w-28 h-28 md:w-36 md:h-36 flex flex-col items-center justify-center shadow-xl transform rotate-12 z-30"
+                >
+                  <span className="text-xs md:text-sm">SPECIAL</span>
+                  <span className="text-2xl md:text-4xl leading-none">{banner.circlePromoPrice}</span>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         </div>

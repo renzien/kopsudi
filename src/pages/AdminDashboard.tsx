@@ -576,11 +576,20 @@ const AdminDashboard: React.FC = () => {
                     />
                   </div>
 
-                  <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl border border-gray-200 cursor-pointer" onClick={() => setBannerForm({...bannerForm, isBestSeller: !bannerForm.isBestSeller})}>
-                    <div className={`w-6 h-6 rounded-md flex items-center justify-center border transition-colors ${bannerForm.isBestSeller ? 'bg-red-600 border-red-600' : 'bg-white border-gray-300'}`}>
-                      {bannerForm.isBestSeller && <Check className="w-4 h-4 text-white" />}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1 flex items-center gap-3 bg-gray-50 p-4 rounded-xl border border-gray-200 cursor-pointer" onClick={() => setBannerForm({...bannerForm, isBestSeller: !bannerForm.isBestSeller})}>
+                      <div className={`w-6 h-6 rounded-md flex items-center justify-center border transition-colors ${bannerForm.isBestSeller ? 'bg-red-600 border-red-600' : 'bg-white border-gray-300'}`}>
+                        {bannerForm.isBestSeller && <Check className="w-4 h-4 text-white" />}
+                      </div>
+                      <span className="font-medium text-gray-800 select-none">Tampilkan Stiker "Best Seller"</span>
                     </div>
-                    <span className="font-medium text-gray-800 select-none">Tampilkan Stiker "Best Seller"</span>
+
+                    <div className="flex-1 flex items-center gap-3 bg-gray-50 p-4 rounded-xl border border-gray-200 cursor-pointer" onClick={() => setBannerForm({...bannerForm, isSpecialPromo: bannerForm.isSpecialPromo === false ? true : false})}>
+                      <div className={`w-6 h-6 rounded-md flex items-center justify-center border transition-colors ${bannerForm.isSpecialPromo !== false ? 'bg-red-600 border-red-600' : 'bg-white border-gray-300'}`}>
+                        {bannerForm.isSpecialPromo !== false && <Check className="w-4 h-4 text-white" />}
+                      </div>
+                      <span className="font-medium text-gray-800 select-none">Tampilkan Tag Harga Spesial</span>
+                    </div>
                   </div>
                 </div>
 

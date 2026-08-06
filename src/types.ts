@@ -13,6 +13,7 @@ export interface Banner {
   promoTagPrice: string;
   circlePromoPrice: string;
   isBestSeller: boolean;
+  isSpecialPromo?: boolean;
 }
 
 export interface Product {

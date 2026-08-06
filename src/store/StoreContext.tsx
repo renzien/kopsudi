@@ -52,6 +52,7 @@ const initialBanner: Banner = {
   promoTagPrice: 'Promo Rp 7.000',
   circlePromoPrice: 'Rp7k',
   isBestSeller: true,
+  isSpecialPromo: true,
 };
 
 const initialAdmins: AdminUser[] = [
