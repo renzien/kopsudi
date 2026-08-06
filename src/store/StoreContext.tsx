@@ -68,7 +68,22 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [banner, setBanner] = useState<Banner>(initialBanner);
   const [admins, setAdmins] = useState<AdminUser[]>([]);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    let catsLoaded = false;
+    let prodsLoaded = false;
+    let bannerLoaded = false;
+    let salesLoaded = false;
+    let pendingLoaded = false;
+    let adminsLoaded = false;
+
+    const checkLoaded = () => {
+      if (catsLoaded && prodsLoaded && bannerLoaded && salesLoaded && pendingLoaded && adminsLoaded) {
+        setLoading(false);
+      }
+    };
+
     const unsubCategories = onSnapshot(collection(db, 'categories'), (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Category));
       if (data.length === 0) {
@@ -77,6 +92,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       } else {
         setCategories(data);
       }
+      catsLoaded = true; checkLoaded();
     });
 
     const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
@@ -87,16 +103,19 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       } else {
         setProducts(data);
       }
+      prodsLoaded = true; checkLoaded();
     });
 
     const unsubSales = onSnapshot(collection(db, 'sales'), (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Sale));
       setSales(data);
+      salesLoaded = true; checkLoaded();
     });
 
     const unsubPending = onSnapshot(collection(db, 'pendingTransactions'), (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as PendingTransaction));
       setPendingTransactions(data);
+      pendingLoaded = true; checkLoaded();
     });
 
     const unsubBanner = onSnapshot(doc(db, 'banners', 'main'), (docSnap) => {
@@ -105,6 +124,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       } else {
         setDoc(doc(db, 'banners', 'main'), initialBanner);
       }
+      bannerLoaded = true; checkLoaded();
     });
 
     const unsubAdmins = onSnapshot(collection(db, 'admins'), (snapshot) => {
@@ -115,6 +135,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       } else {
         setAdmins(data);
       }
+      adminsLoaded = true; checkLoaded();
     });
 
     return () => {
@@ -224,6 +245,17 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const updateAdminPassword = async (username: string, newPassword: string) => {
     await updateDoc(doc(db, 'admins', username), { password: newPassword });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-red-200 border-t-red-600 rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium">Memuat data KOPSUDI...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <StoreContext.Provider value={{ 
